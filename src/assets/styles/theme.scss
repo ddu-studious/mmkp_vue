@@ -1,0 +1,20 @@
+@use 'variables' as *;
+
+// 主题相关样式...
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+a {
+  color: var(--primary-color);
+  
+  &:hover {
+    color: var(--secondary-color);
+  }
+}
+
+.card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+} 

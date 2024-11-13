@@ -1,0 +1,43 @@
+// 断点定义
+$breakpoints: (
+  'xs': 0,
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+  '2xl': 1536px
+);
+
+// 媒体查询混合宏
+@mixin media-up($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+@mixin media-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint) - 1px) {
+      @content;
+    }
+  }
+}
+
+@mixin media-between($min, $max) {
+  @if map-has-key($breakpoints, $min) and map-has-key($breakpoints, $max) {
+    @media (min-width: map-get($breakpoints, $min)) and (max-width: map-get($breakpoints, $max) - 1px) {
+      @content;
+    }
+  }
+}
+
+// 容器响应式宽度
+$container-max-widths: (
+  'sm': 540px,
+  'md': 720px,
+  'lg': 960px,
+  'xl': 1140px,
+  '2xl': 1320px
+); 

@@ -1,0 +1,86 @@
+// 响应式断点混合宏
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "未知的断点: #{$breakpoint}";
+  }
+}
+
+// 文本截断
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// 毛玻璃效果
+@mixin glass-effect($opacity: 0.8, $blur: 10px) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+// 渐变文本
+@mixin gradient-text($start-color, $end-color) {
+  background: linear-gradient(to right, $start-color, $end-color);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// 阴影效果
+@mixin box-shadow($level: 'md') {
+  @if $level == 'sm' {
+    box-shadow: var(--shadow-sm);
+  } @else if $level == 'md' {
+    box-shadow: var(--shadow-md);
+  } @else if $level == 'lg' {
+    box-shadow: var(--shadow-lg);
+  } @else if $level == 'xl' {
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+// 动画过渡
+@mixin transition($properties...) {
+  $transitions: ();
+  @each $property in $properties {
+    $transitions: append($transitions, $property 0.3s ease, comma);
+  }
+  transition: $transitions;
+}
+
+// 弹性布局
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+// 网格布局
+@mixin grid($columns: 1, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// 响应式容器
+@mixin container($max-width: 1200px) {
+  width: 100%;
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+} 

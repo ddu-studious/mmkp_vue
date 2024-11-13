@@ -1,0 +1,66 @@
+@use "sass:map";
+
+// 基础间距单位
+$spacing-unit: 0.25rem;
+
+// 间距变量
+$spacing: (
+  '0': 0,
+  '1': $spacing-unit,
+  '2': $spacing-unit * 2,
+  '3': $spacing-unit * 3,
+  '4': $spacing-unit * 4,
+  '5': $spacing-unit * 5,
+  '6': $spacing-unit * 6,
+  '8': $spacing-unit * 8,
+  '10': $spacing-unit * 10,
+  '12': $spacing-unit * 12,
+  '16': $spacing-unit * 16,
+  '20': $spacing-unit * 20,
+  '24': $spacing-unit * 24,
+  '32': $spacing-unit * 32,
+  '40': $spacing-unit * 40,
+  '48': $spacing-unit * 48,
+  '56': $spacing-unit * 56,
+  '64': $spacing-unit * 64,
+);
+
+// 容器最大宽度
+$container-max-width: 1200px;
+$container-padding: map.get($spacing, '4');
+
+// 组件间距
+$section-spacing: map.get($spacing, '16');
+$component-spacing: map.get($spacing, '8');
+$element-spacing: map.get($spacing, '4');
+
+// 网格间距
+$grid-gap: map.get($spacing, '6');
+$grid-gap-sm: map.get($spacing, '4');
+$grid-gap-lg: map.get($spacing, '8');
+
+// CSS 变量导出
+:root {
+  --spacing-unit: #{$spacing-unit};
+  --container-max-width: #{$container-max-width};
+  --container-padding: #{$container-padding};
+  --section-spacing: #{$section-spacing};
+  --component-spacing: #{$component-spacing};
+  --element-spacing: #{$element-spacing};
+  --grid-gap: #{$grid-gap};
+  --grid-gap-sm: #{$grid-gap-sm};
+  --grid-gap-lg: #{$grid-gap-lg};
+}
+
+// SCSS 变量导出
+:export {
+  spacingUnit: $spacing-unit;
+  containerMaxWidth: $container-max-width;
+  containerPadding: $container-padding;
+  sectionSpacing: $section-spacing;
+  componentSpacing: $component-spacing;
+  elementSpacing: $element-spacing;
+  gridGap: $grid-gap;
+  gridGapSm: $grid-gap-sm;
+  gridGapLg: $grid-gap-lg;
+} 

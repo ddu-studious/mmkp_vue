@@ -1,0 +1,235 @@
+.markdown-body {
+  // 基础样式
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.8;
+  word-wrap: break-word;
+
+  // 标题样式
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+    font-weight: 600;
+    line-height: 1.25;
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+
+    .header-anchor {
+      float: left;
+      margin-left: -1.2em;
+      padding-right: 0.2em;
+      opacity: 0;
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: opacity 0.2s;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &:hover .header-anchor {
+      opacity: 1;
+    }
+  }
+
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1em; }
+  h5 { font-size: 0.875em; }
+  h6 { font-size: 0.85em; }
+
+  // 段落和列表
+  p, ul, ol {
+    margin: 1em 0;
+  }
+
+  ul, ol {
+    padding-left: 2em;
+  }
+
+  li + li {
+    margin-top: 0.25em;
+  }
+
+  // 代码块
+  pre {
+    margin: 1em 0;
+    padding: 1em;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    overflow-x: auto;
+
+    code {
+      padding: 0;
+      background: none;
+      color: inherit;
+      font-size: 0.9em;
+      font-family: var(--font-mono);
+    }
+  }
+
+  // 行内代码
+  code {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 0.9em;
+    background: var(--bg-secondary);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+  }
+
+  // 引用
+  blockquote {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    color: var(--text-secondary);
+    border-left: 4px solid var(--primary-color);
+    background: var(--bg-secondary);
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // 表格
+  table {
+    width: 100%;
+    margin: 1em 0;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 0.5em 1em;
+      border: 1px solid var(--border-color);
+    }
+
+    th {
+      font-weight: 600;
+      background: var(--bg-secondary);
+    }
+
+    tr:nth-child(2n) {
+      background: var(--bg-secondary);
+    }
+  }
+
+  // 图片
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1em 0;
+  }
+
+  // 水平线
+  hr {
+    height: 1px;
+    margin: 2em 0;
+    background-color: var(--border-color);
+    border: none;
+  }
+
+  // 自定义容器
+  .custom-block {
+    margin: 1em 0;
+    padding: 1em;
+    border-radius: 6px;
+    border-left: 4px solid;
+
+    .custom-block-title {
+      font-weight: 600;
+      margin-bottom: 0.5em;
+    }
+
+    &.tip {
+      background: var(--success-light);
+      border-color: var(--success);
+      .custom-block-title {
+        color: var(--success);
+      }
+    }
+
+    &.warning {
+      background: var(--warning-light);
+      border-color: var(--warning);
+      .custom-block-title {
+        color: var(--warning);
+      }
+    }
+
+    &.danger {
+      background: var(--error-light);
+      border-color: var(--error);
+      .custom-block-title {
+        color: var(--error);
+      }
+    }
+
+    &.info {
+      background: var(--info-light);
+      border-color: var(--info);
+      .custom-block-title {
+        color: var(--info);
+      }
+    }
+  }
+
+  // 任务列表
+  .task-list-item {
+    list-style-type: none;
+    margin-left: -1.6em;
+
+    input[type="checkbox"] {
+      margin-right: 0.5em;
+    }
+  }
+
+  // 代码高亮
+  .hljs {
+    background: transparent;
+    padding: 0;
+
+    .hljs-comment,
+    .hljs-quote {
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: var(--primary-color);
+    }
+
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: var(--success);
+    }
+
+    .hljs-string,
+    .hljs-doctag {
+      color: var(--warning);
+    }
+
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: var(--error);
+      font-weight: bold;
+    }
+
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: var(--info);
+      font-weight: bold;
+    }
+  }
+} 
