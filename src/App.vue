@@ -22,4 +22,4 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 .fade-leave-to {
   opacity: 0;
 }
-</style> 
+</style>
