@@ -1,59 +1,126 @@
-# mmkp_vue
-慢慢快跑
+# 技术博客 Vue3 重构版
 
-This template should help get you started developing with Vue 3 in Vite.
+使用 Vue 3 + TypeScript 重构的现代化技术博客。
 
-## Recommended IDE Setup
+## 已实现功能
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### 基础架构
+- [x] Vue 3 + TypeScript 项目基础设置
+- [x] Vite 构建工具配置
+- [x] Vue Router 路由管理
+- [x] Pinia 状态管理
+- [x] SCSS 样式预处理
 
-## Type Support for `.vue` Imports in TS
+### UI/UX
+- [x] 响应式布局
+- [x] 主题切换功能
+- [x] 页面过渡动画
+- [x] 自定义滚动条样式
+- [x] 瀑布流布局组件
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### 功能组件
+- [x] Markdown 编辑器和渲染
+- [x] 文章列表展示
+- [x] 目录导航组件
+- [x] 图片上传组件
+- [x] 搜索功能组件
 
-## Customize configuration
+### 工具类
+- [x] 缓存管理
+- [x] 本地存储封装
+- [x] 表单验证工具
+- [x] 防抖/节流函数
+- [x] URL 参数处理
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### API 和数据处理
+- [x] 基础 API 服务封装
+- [x] Mock 数据服务
+- [x] 评论服务
+- [x] 搜索服务
+- [x] 数据过滤和排序功能
 
-## Project Setup
+## 待完善功能
 
-```sh
-npm install
-```
+### 认证与授权
+- [ ] 完整的用户认证系统
+- [ ] 权限管理机制
+- [ ] OAuth 集成
 
-### Compile and Hot-Reload for Development
+### 数据管理
+- [ ] 完整的状态管理方案
+- [ ] 数据持久化策略
+- [ ] 离线数据支持
 
-```sh
-npm run dev
-```
+### 性能优化
+- [ ] ��片懒加载
+- [ ] 虚拟列表
+- [ ] 大数据渲染优化
+- [ ] 资源预加载策略
 
-### Type-Check, Compile and Minify for Production
+### 测试覆盖
+- [ ] 单元测试
+- [ ] E2E 测试
+- [ ] 性能测试
 
-```sh
-npm run build
-```
+## 待开发功能
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### 工程化能力
+- [ ] CI/CD 流程
+- [ ] 自动化测试流程
+- [ ] 代码质量检查工具配置
+- [ ] Git 提交规范工具
 
-```sh
-npm run test:unit
-```
+### 应用功能
+- [ ] 完整的评论系统
+- [ ] 用户个人中心
+- [ ] 文章管理后台
+- [ ] 数据统计和分析
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+### 技术特性
+- [ ] SSR/SSG 支持
+- [ ] PWA 支持
+- [ ] 微前端架构
+- [ ] WebSocket 实时通信
 
-```sh
-# Install browsers for the first run
-npx playwright install
+### 运维监控
+- [ ] 错误监控和上报
+- [ ] 性能监控
+- [ ] 用户行为分析
+- [ ] 日志收集系统
 
-# When testing on CI, must build the project first
-npm run build
+### 国际化
+- [ ] 多语言支持
+- [ ] 本地化配置
+- [ ] 时区处理
 
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
+### 安全性
+- [ ] XSS 防护
+- [ ] CSRF 防护
+- [ ] 敏感数据加密
+- [ ] 请求签名验证
+
+## 技术栈
+
+### 核心技术
+- Vue 3 (Composition API)
+- TypeScript
+- Vite
+- Vue Router 4
+- Pinia
+- Sass
+
+### 工具和库
+- ESLint
+- Prettier
+- Husky
+- Axios
+- VueUse
+
+## 开发指南
+
+### 环境要求
+- Node.js (推荐 v16+)
+- npm 或 yarn
+- Git
+
+### 项目设置

@@ -1,62 +1,152 @@
 <template>
-  <div class="home-page">
-    <section class="hero-section">
-      <Carousel 
-        :slides="heroSlides"
-        :autoplay="true"
-        :interval="6000"
-      />
-    </section>
-
-    <section class="featured-section">
-      <FeaturedArticles />
-    </section>
-
-    <section class="categories">
-      <h2>文章分类</h2>
-      <div class="category-grid">
-        <router-link 
-          v-for="category in categories" 
-          :key="category.id"
-          :to="`/articles?category=${category.name}`"
-          class="category-card"
-        >
-          <div class="category-icon">
-            <Icon :icon="category.icon" />
-          </div>
-          <div class="category-content">
-            <h3>{{ category.name }}</h3>
-            <p>{{ category.description }}</p>
-            <div class="category-stats">
-              <span class="article-count">
-                <Icon icon="ri:article-line" />
-                {{ category.count }} 篇文章
-              </span>
-              <Icon 
-                class="arrow-icon"
-                icon="ri:arrow-right-up-line" 
-              />
-            </div>
-          </div>
-        </router-link>
+  <div class="space-y-12">
+    <!-- 欢迎区域 -->
+    <section class="relative bg-gradient-to-br from-blue-600 to-blue-400 dark:from-blue-700 dark:to-blue-500 rounded-2xl p-8 sm:p-12 overflow-hidden">
+      <div class="relative z-10">
+        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-4">
+          欢迎来到技术博客
+        </h1>
+        <p class="text-base sm:text-lg text-blue-50 mb-8 max-w-2xl leading-relaxed">
+          分享技术经验，记录学习心得，共同成长进步。专注于前端开发、后端技术、云原生等领域。
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <el-button 
+            type="primary" 
+            size="large"
+            class="!bg-white !text-blue-600 hover:!bg-blue-50 !border-transparent"
+            @click="$router.push('/articles')"
+          >
+            <template #icon>
+              <el-icon><Document /></el-icon>
+            </template>
+            浏览文章
+          </el-button>
+          <el-button 
+            size="large"
+            class="!border-white !text-white hover:!bg-white/10"
+            @click="$router.push('/about')"
+          >
+            <template #icon>
+              <el-icon><InfoFilled /></el-icon>
+            </template>
+            了解更多
+          </el-button>
+        </div>
+      </div>
+      <!-- 背景装饰 -->
+      <div class="absolute right-0 top-0 w-1/3 h-full opacity-10">
+        <div class="absolute inset-0 bg-white transform rotate-45 translate-x-1/2 -translate-y-1/2"></div>
       </div>
     </section>
 
-    <section class="newsletter">
-      <div class="newsletter-content">
-        <h2>订阅更新</h2>
-        <p>订阅技术文章，及时获取最新内容</p>
-        <form @submit.prevent="handleSubscribe" class="subscribe-form">
-          <input 
-            type="email" 
-            v-model="email" 
-            placeholder="输入您的邮箱地址"
-            required
+    <!-- 特色文章 -->
+    <section class="space-y-8">
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+          <el-icon :size="20" class="text-blue-600 dark:text-blue-400">
+            <Star />
+          </el-icon>
+          <span>特色文章</span>
+        </h2>
+        <router-link 
+          to="/articles" 
+          class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1 group"
+        >
+          <span>查看全部</span>
+          <el-icon :size="16" class="group-hover:translate-x-1 transition-transform">
+            <ArrowRight />
+          </el-icon>
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article 
+          v-for="article in featuredArticles" 
+          :key="article.id"
+          class="group bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+        >
+          <!-- 文章封面图 -->
+          <div class="aspect-video overflow-hidden bg-gray-100 dark:bg-gray-700">
+            <img 
+              :src="article.cover" 
+              :alt="article.title"
+              class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            >
+          </div>
+
+          <div class="p-6">
+            <!-- 文章标题 -->
+            <router-link 
+              :to="`/article/${article.id}`"
+              class="block"
+            >
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                {{ article.title }}
+              </h3>
+            </router-link>
+
+            <!-- 文章元信息 -->
+            <div class="flex items-center space-x-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
+              <span class="flex items-center space-x-1">
+                <el-icon :size="14"><Calendar /></el-icon>
+                <span>{{ formatDate(article.publishDate) }}</span>
+              </span>
+              <span class="flex items-center space-x-1">
+                <el-icon :size="14"><View /></el-icon>
+                <span>{{ article.views }} 阅读</span>
+              </span>
+            </div>
+
+            <!-- 文章摘要 -->
+            <p class="mt-4 text-gray-600 dark:text-gray-300 text-sm line-clamp-2 leading-relaxed">
+              {{ article.summary }}
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 分类专栏 -->
+    <section class="space-y-8">
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+          <el-icon :size="20" class="text-blue-600 dark:text-blue-400">
+            <Collection />
+          </el-icon>
+          <span>分类专栏</span>
+        </h2>
+        <router-link 
+          to="/categories" 
+          class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1 group"
+        >
+          <span>查看全部</span>
+          <el-icon :size="16" class="group-hover:translate-x-1 transition-transform">
+            <ArrowRight />
+          </el-icon>
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <router-link
+          v-for="category in categories"
+          :key="category.id"
+          :to="`/categories/${category.id}`"
+          class="group bg-white dark:bg-gray-800 rounded-lg p-6 text-center hover:shadow-md transition-all hover:-translate-y-1"
+        >
+          <el-icon 
+            :size="32" 
+            class="text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform"
           >
-          <button type="submit" :disabled="loading">
-            {{ loading ? '订阅中...' : '立即订阅' }}
-          </button>
-        </form>
+            <component :is="category.icon" />
+          </el-icon>
+          <h3 class="font-medium text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            {{ category.name }}
+          </h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ category.count }} 篇文章
+          </p>
+        </router-link>
       </div>
     </section>
   </div>
@@ -64,456 +154,108 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Carousel from '@/components/common/Carousel.vue'
-import FeaturedArticles from '@/components/common/FeaturedArticles.vue'
+import { markRaw } from 'vue'
+import {
+  Calendar,
+  View,
+  Star,
+  Collection,
+  ArrowRight,
+  Monitor,
+  Connection,
+  DataLine,
+  Cpu
+} from '@element-plus/icons-vue'
 
-const heroSlides = ref([
-  {
-    image: 'https://picsum.photos/1920/800?random=1',
-    title: '探索技术的奥秘',
-    description: '分享编程知识，记录技术成长',
-    link: '/articles'
-  },
-  {
-    image: 'https://picsum.photos/1920/800?random=2',
-    title: '现代化前端工程实践',
-    description: '探索前沿技术，掌握开发利器',
-    link: '/articles/frontend'
-  },
-  {
-    image: 'https://picsum.photos/1920/800?random=3',
-    title: 'TypeScript 高级指南',
-    description: '深入理解 TypeScript，提升开发体验',
-    link: '/articles/typescript'
-  }
-])
+// 格式化日期
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
 
-const categories = ref([
+// 特色文章数据
+const featuredArticles = ref([
   {
     id: 1,
-    name: '前端开发',
-    description: '探索现代前端技术和最佳实践',
-    icon: 'ri:code-box-line',
-    count: 42
+    title: 'Vue3 和 TypeScript 实战指南',
+    publishDate: '2024-01-15',
+    views: 1234,
+    summary: 'Vue3 带来了 Composition API、更好的 TypeScript 支持等重要特性。本文将深入探讨如何在实际项目中充分利用这些新特性。',
+    cover: 'https://picsum.photos/800/400?random=1'
   },
   {
     id: 2,
-    name: '后端开发',
-    description: 'Node.js、Python 等后端技术分享',
-    icon: 'ri:server-line',
-    count: 28
+    title: '深入理解 Vite 构建原理',
+    publishDate: '2024-01-14',
+    views: 856,
+    summary: 'Vite 作为新一代前端构建工具，在开发体验和构建性能上都有显著优势。本文将详细解析 Vite 的核心原理。',
+    cover: 'https://picsum.photos/800/400?random=2'
   },
   {
     id: 3,
-    name: '工程化',
-    description: '前端工程化、自动化工具和最佳实践',
-    icon: 'ri:tools-line',
-    count: 35
-  },
-  {
-    id: 4,
-    name: '性能优化',
-    description: '前端性能优化策略和实践技巧',
-    icon: 'ri:speed-line',
-    count: 23
-  },
-  {
-    id: 5,
-    name: '架构设计',
-    description: '软件架构设计原则和最佳实践',
-    icon: 'ri:layout-line',
-    count: 19
-  },
-  {
-    id: 6,
-    name: '前端安全',
-    description: 'Web 安全、防护策略和最佳实践',
-    icon: 'ri:shield-keyhole-line',
-    count: 15
-  },
-  {
-    id: 7,
-    name: '移动开发',
-    description: '移动端开发技术和跨平台解决方案',
-    icon: 'ri:smartphone-line',
-    count: 26
-  },
-  {
-    id: 8,
-    name: '数据可视化',
-    description: '数据可视化技术和图表库应用',
-    icon: 'ri:bar-chart-box-line',
-    count: 17
-  },
-  {
-    id: 9,
-    name: '人工智能',
-    description: 'AI 在前端领域的应用实践',
-    icon: 'ri:brain-line',
-    count: 12
+    title: 'Node.js 性能优化实践',
+    publishDate: '2024-01-13',
+    views: 678,
+    summary: '本文将分享一些 Node.js 应用性能优化的实用技巧，包括内存管理、异步操作优化等方面的最佳实践。',
+    cover: 'https://picsum.photos/800/400?random=3'
   }
 ])
 
-const email = ref('')
-const loading = ref(false)
-
-const handleSubscribe = async () => {
-  if (!email.value || loading.value) return
-  
-  loading.value = true
-  
-  try {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    alert('订阅成功！')
-    email.value = ''
-  } catch (error) {
-    alert('订阅失败，请稍后重试')
-  } finally {
-    loading.value = false
+// 分类数据
+const categories = ref([
+  {
+    id: 'frontend',
+    name: '前端开发',
+    count: 42,
+    icon: markRaw(Monitor)
+  },
+  {
+    id: 'backend',
+    name: '后端技术',
+    count: 38,
+    icon: markRaw(Connection)
+  },
+  {
+    id: 'database',
+    name: '数据库',
+    count: 25,
+    icon: markRaw(DataLine)
+  },
+  {
+    id: 'devops',
+    name: 'DevOps',
+    count: 18,
+    icon: markRaw(Cpu)
   }
-}
+])
 </script>
 
-<style scoped lang="scss">
-.home-page {
-  min-height: 100vh;
+<style scoped>
+:deep(.el-button) {
+  @apply !font-medium;
 }
 
-.hero-section {
-  width: 100%;
-  height: 100vh;
-  min-height: 600px;
-  max-height: 800px;
-  position: relative;
-  z-index: 1;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      var(--bg-primary)
-    );
-    pointer-events: none;
-    z-index: 2;
-  }
+:deep(.el-button--primary) {
+  @apply !border-transparent;
 }
 
-.featured-section {
-  position: relative;
-  z-index: 2;
-  margin-top: -50px;
-  padding-top: 0;
+:deep(.el-icon) {
+  @apply transition-transform;
 }
 
-.categories {
-  padding: 6rem 0;
-  background: linear-gradient(
-    to bottom,
-    var(--bg-primary) 0%,
-    var(--bg-secondary) 100%
-  );
-
-  h2 {
-    text-align: center;
-    margin-bottom: 4rem;
-    font-size: 2.5rem;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
-    position: relative;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(to right, var(--primary-color), transparent);
-      border-radius: 3px;
-    }
-  }
+/* 图片加载过渡效果 */
+img {
+  @apply transition-opacity duration-300;
 }
 
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+img[loading] {
+  @apply opacity-0;
 }
 
-.category-card {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  padding: 2rem;
-  background: var(--bg-primary);
-  border-radius: 20px;
-  text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      transparent 0%,
-      rgba(var(--primary-rgb), 0.05) 100%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(to right, var(--primary-color), transparent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-
-  &:hover {
-    transform: translateY(-6px);
-    border-color: var(--primary-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-
-    &::before {
-      opacity: 1;
-    }
-
-    &::after {
-      transform: scaleX(1);
-    }
-
-    .category-icon {
-      transform: scale(1.1) rotate(10deg);
-      background: var(--primary-color);
-      color: white;
-    }
-
-    .arrow-icon {
-      transform: translate(6px, -6px);
-      opacity: 1;
-    }
-
-    h3 {
-      color: var(--primary-color);
-    }
-  }
-}
-
-.category-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  background: var(--primary-light);
-  border-radius: 16px;
-  margin-right: 1.5rem;
-  color: var(--primary-color);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
-
-  .icon {
-    width: 28px;
-    height: 28px;
-    transition: transform 0.4s ease;
-  }
-}
-
-.category-content {
-  flex: 1;
-  min-width: 0;
-
-  h3 {
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-    transition: color 0.3s ease;
-  }
-
-  p {
-    font-size: 0.9375rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.25rem;
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-}
-
-.category-stats {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.875rem;
-  color: var(--text-tertiary);
-
-  .article-count {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 1rem;
-    background: var(--bg-secondary);
-    border-radius: 20px;
-    transition: all 0.3s ease;
-
-    .icon {
-      width: 1.1em;
-      height: 1.1em;
-      opacity: 0.8;
-      transition: all 0.3s ease;
-    }
-
-    &:hover {
-      background: var(--primary-light);
-      color: var(--primary-color);
-      transform: translateY(-2px);
-
-      .icon {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-    }
-  }
-
-  .arrow-icon {
-    width: 1.4em;
-    height: 1.4em;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    color: var(--primary-color);
-  }
-}
-
-.newsletter {
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-primary) 100%);
-  text-align: center;
-
-  .newsletter-content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  h2 {
-    font-size: 2rem;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-family: var(--font-heading);
-  }
-
-  p {
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-  }
-}
-
-.subscribe-form {
-  display: flex;
-  gap: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
-
-  input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-
-    &:focus {
-      outline: none;
-      border-color: var(--primary-color);
-    }
-  }
-
-  button {
-    padding: 0.75rem 2rem;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background: var(--primary-hover);
-    }
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .categories {
-    padding: 4rem 0;
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 3rem;
-    }
-  }
-
-  .category-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0 1.5rem;
-  }
-
-  .category-card {
-    padding: 1.5rem;
-  }
-
-  .category-icon {
-    width: 48px;
-    height: 48px;
-    margin-right: 1rem;
-
-    .icon {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  .category-content {
-    h3 {
-      font-size: 1.25rem;
-    }
-
-    p {
-      font-size: 0.875rem;
-      margin-bottom: 1rem;
-    }
-  }
-
-  .subscribe-form {
-    flex-direction: column;
-  }
+img.loaded {
+  @apply opacity-100;
 }
 </style> 

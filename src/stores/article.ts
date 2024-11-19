@@ -1,66 +1,78 @@
 import { defineStore } from 'pinia'
-import type { Article, SearchParams } from '@/types'
-import { articleApi } from '@/services'
-import { getErrorMessage } from '@/utils/error'
+import type { Article } from '@/types'
 
 interface ArticleState {
   articles: Article[]
-  currentArticle: Article | null
   loading: boolean
-  error: string | null
   currentPage: number
-  totalPages: number
   itemsPerPage: number
+  total: number
 }
 
 export const useArticleStore = defineStore('article', {
   state: (): ArticleState => ({
     articles: [],
-    currentArticle: null,
     loading: false,
-    error: null,
     currentPage: 1,
-    totalPages: 1,
-    itemsPerPage: 10
+    itemsPerPage: 10,
+    total: 0
   }),
 
   getters: {
-    featuredArticles: (state): Article[] => 
-      state.articles.filter(article => article.tags.includes('featured')),
-    
-    getArticleById: (state) => (id: number): Article | undefined =>
-      state.articles.find(article => article.id === id)
+    hasMore: (state) => {
+      return state.articles.length < state.total
+    }
   },
 
   actions: {
-    async fetchArticles(params: SearchParams) {
-      this.loading = true
-      this.error = null
+    async fetchArticles(params?: { 
+      page?: number
+      category?: string 
+      tags?: string[]
+      sort?: string
+      search?: string
+    }) {
       try {
-        const { data, page, totalPages } = await articleApi.getArticles(params)
-        this.articles = data
-        this.currentPage = page
-        this.totalPages = totalPages
-      } catch (e) {
-        this.error = getErrorMessage(e)
+        this.loading = true
+        // TODO: 实现实际的 API 调用
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // 模拟数据
+        this.articles = [
+          {
+            id: 1,
+            title: 'Vue3 组合式 API 实战指南',
+            summary: '深入了解 Vue3 组合式 API 的使用方法和最佳实践...',
+            content: '',
+            date: '2024-03-20',
+            category: 'frontend',
+            tags: ['Vue3', 'TypeScript'],
+            views: 1234,
+            comments: 23,
+            cover: 'https://picsum.photos/800/400?random=1',
+            readTime: 15,
+            author: {
+              id: 1,
+              name: '张三'
+            }
+          },
+          // 添加更多模拟数据...
+        ]
+        
+        this.total = 100 // 模拟总数
+      } catch (error) {
+        console.error('Failed to fetch articles:', error)
+        throw error
       } finally {
         this.loading = false
       }
     },
 
-    async fetchArticleById(id: number) {
-      this.loading = true
-      this.error = null
-      try {
-        const article = await articleApi.getArticleById(id)
-        this.currentArticle = article
-        return article
-      } catch (e) {
-        this.error = getErrorMessage(e)
-        return null
-      } finally {
-        this.loading = false
-      }
+    async fetchMoreArticles() {
+      if (this.loading || !this.hasMore) return
+      
+      this.currentPage++
+      await this.fetchArticles({ page: this.currentPage })
     }
   }
 }) 

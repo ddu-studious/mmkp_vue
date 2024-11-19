@@ -48,14 +48,12 @@ export interface Article {
   content?: string
   date: string
   category: string
-  readTime: number
-  image: string
   tags: string[]
   views: number
-  likes: number
   comments: number
+  cover: string
+  readTime: number
   author: Author
-  isNew?: boolean
   status?: 'draft' | 'published' | 'archived'
 }
 
@@ -86,24 +84,20 @@ export interface Tag {
 }
 
 export interface SearchParams {
-  query?: string
-  category?: string
-  tags?: string[]
   page?: number
   limit?: number
-  sort?: 'latest' | 'popular' | 'recommended'
-  status?: Article['status']
+  category?: string
+  tags?: string[]
+  sort?: string
+  search?: string
 }
 
 export interface PaginatedResponse<T> {
   data: T[]
-  pagination: {
-    total: number
-    page: number
-    pageSize: number
-    totalPages: number
-    hasMore: boolean
-  }
+  total: number
+  page: number
+  limit: number
+  totalPages: number
 }
 
 export interface Notification {
