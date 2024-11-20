@@ -1,62 +1,35 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '@/pages/HomePage.vue'
+import GitGuide from '@/pages/GitGuide.vue'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomePage
+      component: () => import('@/pages/Articles.vue')
     },
     {
       path: '/articles',
-      name: 'articles',
-      component: () => import('@/pages/ArticlesPage.vue')
-    },
-    {
-      path: '/article/:id',
-      name: 'article',
-      component: () => import('@/pages/ArticlePage.vue')
+      component: () => import('@/pages/Articles.vue')
     },
     {
       path: '/categories',
-      name: 'categories',
-      component: () => import('@/pages/CategoriesPage.vue')
+      component: () => import('@/pages/Categories.vue')
     },
     {
       path: '/tags',
-      name: 'tags',
-      component: () => import('@/pages/TagsPage.vue')
+      component: () => import('@/pages/Tags.vue')
     },
     {
       path: '/about',
-      name: 'about',
-      component: () => import('@/pages/AboutPage.vue')
+      component: () => import('@/pages/About.vue')
     },
     {
-      path: '/portfolio',
-      name: 'portfolio',
-      component: () => import('@/pages/PortfolioPage.vue')
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: () => import('@/pages/ContactPage.vue')
-    },
-    {
-      path: '/:pathMatch(.*)*',
-      name: 'not-found',
-      component: () => import('@/pages/NotFoundPage.vue')
+      path: '/git-guide',
+      name: 'GitGuide',
+      component: GitGuide
     }
-  ],
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { top: 0 }
-    }
-  }
+  ]
 })
 
 export default router

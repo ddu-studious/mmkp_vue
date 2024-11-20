@@ -21,4 +21,13 @@ declare global {
   }
 }
 
+export interface Article {
+  id: number | string
+  title: string
+  description: string
+  date: string
+  category: string
+  views?: number
+}
+
 export {} 
